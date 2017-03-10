@@ -45,38 +45,38 @@ There is also a Lomb-Scargle script in the repo for ease of use and comparison.
     Import this script via Python to use it as a module, rather than
     a standalone script. (import wwz)
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -f FILE, --file FILE  the Input File, Raw Lightcurve
-  -o OUTPUT, --output OUTPUT
-                        the Output File Name
-  -l FREQ_LOW, --freq-low FREQ_LOW
-                        the Low Frequency Value
-  -hi FREQ_HIGH, --freq-high FREQ_HIGH
-                        the High Frequency Value
-  -d FREQ_STEP, --freq-step FREQ_STEP
-                        the dF value, incremental step for Frequency
-  -c DCON, --dcon DCON  the C constant for the Window Function
-  -g, --gnuplot-compatible
-                        the Output file is GNUPlot compatible, which means the
-                        tau's will be grouped so that pm3d can easily map.
-                        Default value is 'False'.
-  -m, --max-periods     Creates a secondary output with the maximum Periods
-                        for each single tau. This can be drawn in 2D. The
-                        output filename is derived from the -o option, added
-                        'max_periods'. Default value is 'False'.
-  -t TIME_DIVISIONS, --time-divisions TIME_DIVISIONS
-                        The Time Divisions value. Templeton assumes this as
-                        50. VStars from AAVSO leaves this optional contrary to
-                        Templeton, yet it's default value is also 50.
-  --time                Calculate the time of operation in seconds and print
-                        to standard output.
-  --no-headers          Doesn't print headers to output files if set. Default
-                        is 'False'.
-  -p PARALLEL, --parallel PARALLEL
-                        Created threads to speed up the process. Default value
-                        is '1', which means single thread. '0' means number of
-                        detected CPUs, can be overridden.
+    optional arguments:
+      -h, --help            show this help message and exit
+      -f FILE, --file FILE  the Input File, Raw Lightcurve
+      -o OUTPUT, --output OUTPUT
+                            the Output File Name
+      -l FREQ_LOW, --freq-low FREQ_LOW
+                            the Low Frequency Value
+      -hi FREQ_HIGH, --freq-high FREQ_HIGH
+                            the High Frequency Value
+      -d FREQ_STEP, --freq-step FREQ_STEP
+                            the dF value, incremental step for Frequency
+      -c DCON, --dcon DCON  the C constant for the Window Function
+      -g, --gnuplot-compatible
+                            the Output file is GNUPlot compatible, which means the
+                            tau's will be grouped so that pm3d can easily map.
+                            Default value is 'False'.
+      -m, --max-periods     Creates a secondary output with the maximum Periods
+                            for each single tau. This can be drawn in 2D. The
+                            output filename is derived from the -o option, added
+                            'max_periods'. Default value is 'False'.
+      -t TIME_DIVISIONS, --time-divisions TIME_DIVISIONS
+                            The Time Divisions value. Templeton assumes this as
+                            50. VStars from AAVSO leaves this optional contrary to
+                            Templeton, yet it's default value is also 50.
+      --time                Calculate the time of operation in seconds and print
+                            to standard output.
+      --no-headers          Doesn't print headers to output files if set. Default
+                            is 'False'.
+      -p PARALLEL, --parallel PARALLEL
+                            Created threads to speed up the process. Default value
+                            is '1', which means single thread. '0' means number of
+                            detected CPUs, can be overridden.
 
 
 Below is an example of the X-Ray source (observed by the [RXTE](https://heasarc.gsfc.nasa.gov/docs/xte/xte_1st.html) Satellite) with data, Lomb-Scargle and WWZ output.
