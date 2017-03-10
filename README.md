@@ -84,3 +84,7 @@ There is also a Lomb-Scargle script in the repo for ease of use and comparison.
 Below is an example of the X-Ray source (observed by the [RXTE](https://heasarc.gsfc.nasa.gov/docs/xte/xte_1st.html) Satellite) with data, Lomb-Scargle and WWZ output.
 
 ![Example Graph](graph/x0114+650.png)
+
+The example below shows the main advantage of WWZ over LS. There is periodicity that LS failed to detect, with a period of about 166 days. Also note the change in frequency.
+
+![Sco X-1](graph/sco-x1.png)
