@@ -4,6 +4,8 @@ This is a Python code for timeseries analysis using WWZ transformations. It uses
 
 The algoritm is mostly translated from Templeton's Fortran code (Templeton, M., 2004, http://adsabs.harvard.edu/full/2004JAVSO..32...41T).
 
+Details of the mathematics, coding and fundamental time series analysis (especially in astronomy) is available in my thesis (Turkish): http://eayd.in/msc
+
 It can either be used as a module import in another Python script or used as a standalone program. It supports paralellization, yet only in standalone mode.
 
 Dependencies: Python 2.6+ (not Python 3 ready) and NumPy
