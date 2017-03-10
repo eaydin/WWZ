@@ -89,6 +89,6 @@ The example below shows the main advantage of WWZ over LS. There is periodicity 
 
 ![Sco X-1](graph/sco-x1.png)
 
-The SMCX-1 graph below shows how peak frequency detected by LS can be misleading, since that frequency value actually changes (very low at 51500 and 54500 MJD)
+The SMCX-1 graph below shows how peak frequency detected by LS can be misleading, since that frequency value actually changes (very low at 51500 and 54500 MJD) and the alias of the detected LS peak (at around 29 days period) is not detected by the WWZ algorithm (which is a good thing).
 
 ![SMCX-1](graph/smcx-1.png)
