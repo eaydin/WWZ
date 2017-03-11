@@ -6,6 +6,18 @@ The algoritm is mostly translated from Templeton's Fortran code (Templeton, M., 
 
 Details of the mathematics, coding and fundamental time series analysis (especially in astronomy) is available in my thesis (Turkish): http://eayd.in/msc
 
+## Citing This Code
+
+You can cite this code with its DOI and citing my thesis:
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.375648.svg)](https://doi.org/10.5281/zenodo.375648)
+
+Aydin, M. E., 2017. eaydin/WWZ: v1.0.0, Zenodo, http://doi.org/10.5281/zenodo.375648
+
+Aydin, M. E., 2014, Dynamic Power Spectra On The Basis Of Wavelet Transform, M.S. Thesis, Ankara University 
+
+## Usage
+
 It can either be used as a module import in another Python script or used as a standalone program. It supports paralellization, yet only in standalone mode.
 
 Dependencies: Python 2.6+ (not Python 3 ready) and NumPy
@@ -80,6 +92,8 @@ There is also a Lomb-Scargle script in the repo for ease of use and comparison.
                             is '1', which means single thread. '0' means number of
                             detected CPUs, can be overridden.
 
+
+## Example Outputs
 
 Below is an example of the X-Ray source (observed by the [RXTE](https://heasarc.gsfc.nasa.gov/docs/xte/xte_1st.html) Satellite) with data, Lomb-Scargle and WWZ output.
 
