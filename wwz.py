@@ -164,10 +164,9 @@ class WWZ(object):
             dtau = dtau + dtstep
         return tau
 
-        ### End of Maketau
-
     def makefreq(self, flo, fhi, df):
         """The Makefreq section.
+
         Arguments are:
             flo = Low Frequency
             fhi = High Frequency
@@ -175,17 +174,8 @@ class WWZ(object):
         """
         # Lines 149 - 181 Fortran
         # Lines 356 - 370 Java
-        freq = []
-        freq.append(flo)
         nfreq = int((fhi - flo) / df) + 1
-
-        # These lines seem skeptical!
-        for i in range(1,nfreq+1):
-            freq.append(flo + ((i - 1) * df))
-
-        return freq
-
-        ### End of Makefreq
+        return [(flo + ((i - 1) * df)) for i in range(1, nfreq + 1)]
 
     def wwt(self, time, magnitude, flo, fhi, df, dcon, timedivisions):
         """The WWZ Algorithm
