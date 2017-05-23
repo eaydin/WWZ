@@ -135,55 +135,6 @@ class WWZ(object):
         darg = darg * math.pow(10, nex)
         return darg
 
-    def matrix_inv(self, inputMatrix):
-        """The Matrix Inversion Method.
-        Arguments are:
-            inputMatrix: the input matrix_inv
-
-        Returns the inverted matrix.
-        """
-        # Lines 202 - 252 Fortran
-
-        ndim = 2
-        dsol = numpy.zeros(shape=(3, 3))
-
-        for i in range(0, 3):
-            for j in range(0, 3):
-                dsol[i][j] = 0.0
-            dsol[i][i] = 1.0
-
-        for i in range(0, 3):
-            if inputMatrix[i][i] == 0.0:
-                if i == ndim:
-                    return
-                for j in range(0, 3):
-                    if inputMatrix[j][i] != 0.0:
-                        for k in range(0, 3):
-                            inputMatrix[i][k] = inputMatrix[i][k] + \
-                                                inputMatrix[j][k]
-                            dsol[i][j] = dsol[i][j] + dsol[j][k]
-
-            dfac = inputMatrix[i][i]
-
-            for j in range(0, 3):
-                inputMatrix[i][j] = inputMatrix[i][j] / dfac
-                dsol[i][j] = dsol[i][j] / dfac
-
-            for j in range(0, 3):
-                if j != i:
-                    dfac = inputMatrix[j][i]
-                    for k in range(0, 3):
-                        inputMatrix[j][k] = inputMatrix[j][k] - \
-                                          (inputMatrix[i][k] * dfac)
-                        dsol[j][k] = dsol[j][k] - (dsol[i][k] * dfac)
-
-        # The unnecessery loop
-        #for i in range(0, 3):
-            #for j in range(0, 3):
-                #self.dmat[i][j] = dsol[i][j]
-
-        return dsol
-
     def maketau(self, time, timedivisions):
         """The maketau method.
         Arguments are:
@@ -404,8 +355,7 @@ class WWZ(object):
                         for n2 in range(0, n1):
                             dmat[n1][n2] = dmat[n2][n1]
 
-
-                    dmat = self.matrix_inv(dmat)
+                    dmat = numpy.linalg.inv(dmat)
 
                     for n1 in range(0, ndim + 1):
                         for n2 in range(0, ndim + 1):
