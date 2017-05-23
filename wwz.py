@@ -461,15 +461,15 @@ class WWZ(object):
         np.set_printoptions(threshold='nan')
 
         if no_headers:
-            np.savetxt(outputFile, wwz_output, delimiter="\t", \
+            np.savetxt(outputFile, wwz_output, delimiter="\t",
                           fmt="%10.4f")
         else:
-            np.savetxt(outputFile, wwz_output, delimiter="\t", \
-                        fmt="%10.4f", comments="#", \
-                        header="%9s %10s %10s %10s %10s %10s" % \
+            np.savetxt(outputFile, wwz_output, delimiter="\t",
+                        fmt="%10.4f", comments="#",
+                        header="%9s %10s %10s %10s %10s %10s" %
                         ("TAU", "FREQ", "WWZ", "AMP", "COEF", "NEFF"))
 
-    def writegnu(self, wwz_output, outputFile, no_headers, \
+    def writegnu(self, wwz_output, outputFile, no_headers,
                 max_periods, ntau):
         """The write file method, adapted to work with GnuPlot.
         Arguments are:
@@ -506,7 +506,7 @@ class WWZ(object):
         # split the array and add newlines in between tau values,
         # write the output
         for i in range(0,ntau):
-            np.savetxt(outputFile, splitArray[i], delimiter="\t", \
+            np.savetxt(outputFile, splitArray[i], delimiter="\t",
                           fmt="%10.4f")
             if i != ntau-1:
                 outputFile.write("\n")
