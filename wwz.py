@@ -38,14 +38,73 @@ except:
 
 # The WWZ Class Begins
 
+def maketau(time, timedivisions):
+    """
+    The maketau method.
+
+    Corresponds to the lines 90 - 112 in the Fortran code
+
+    Arguments
+    ---------
+    :param time: The time values
+    :type time: Array
+
+    :param timedivisions: The value of timedivisions to create tau values
+    :type timedivisions: integer
+
+    Returns
+    -------
+    :returns: Calculated tau values
+    :rtype: array
+
+    """
+
+    dtauhi = time[-1]
+    dtaulo = time[0]
+
+    dtspan = dtauhi - dtaulo
+    dtstep = roundtau(dtspan / timedivisions)
+
+    dtaulo = dtstep * int(dtaulo / dtstep)
+    dtauhi = dtstep * int((dtauhi / dtstep) + 0.5)
+
+    return np.arange(dtaulo, dtauhi + dtstep, dtstep).tolist()
+
+
+def makefreq(flo, fhi, df):
+    """
+    The Makefreq section.
+
+    Corresponds to the lines 149-181 in Fortran
+    and 356 - 370 in Java
+
+    Arguments
+    ---------
+    :param flo: Low Frequency Value
+    :type flo: int, float
+
+    :param fhi: High Frequency Value
+    :type fhi: int, float
+
+    :param df: Frequency Step
+    :type df: int, float
+
+    Returns
+    -------
+    :returns: Frequency values
+    :rtype: array
+
+    """
+    nfreq = int((fhi - flo) / df) + 1
+    return [(flo + ((i - 1) * df)) for i in range(1, nfreq + 1)]
+
+
 class WWZ(object):
     """The Main class object.
     This object class does not get any arguments.
     Available methods are:
         readfile()
         roundtau()
-        maketau()
-        makefreq()
         matrix_inv()
         wwt()
         writefile()
@@ -154,65 +213,6 @@ class WWZ(object):
         darg = darg * dex
         return darg
 
-    def maketau(self, time, timedivisions):
-        """
-        The maketau method.
-
-        Corresponds to the lines 90 - 112 in the Fortran code
-
-        Arguments
-        ---------
-        :param time: The time values
-        :type time: Array
-
-        :param timedivisions: The value of timedivisions to create tau values
-        :type timedivisions: integer
-
-        Returns
-        -------
-        :returns: Calculated tau values
-        :rtype: array
-
-        """
-
-        dtauhi = time[-1]
-        dtaulo = time[0]
-
-        dtspan = dtauhi - dtaulo
-        dtstep = roundtau(dtspan / timedivisions)
-
-        dtaulo = dtstep * int(dtaulo / dtstep)
-        dtauhi = dtstep * int((dtauhi / dtstep) + 0.5)
-
-        return np.arange(dtaulo, dtauhi + dtstep, dtstep).tolist()
-
-    def makefreq(self, flo, fhi, df):
-        """
-        The Makefreq section.
-
-        Corresponds to the lines 149-181 in Fortran
-        and 356 - 370 in Java
-
-        Arguments
-        ---------
-        :param flo: Low Frequency Value
-        :type flo: int, float
-
-        :param fhi: High Frequency Value
-        :type fhi: int, float
-
-        :param df: Frequency Step
-        :type df: int, float
-
-        Returns
-        -------
-        :returns: Frequency values
-        :rtype: array
-
-        """
-        nfreq = int((fhi - flo) / df) + 1
-        return [(flo + ((i - 1) * df)) for i in range(1, nfreq + 1)]
-
     def wwt(self, time, magnitude, flo, fhi, df, dcon, timedivisions):
         """
         The WWZ Algorithm
@@ -250,13 +250,13 @@ class WWZ(object):
         dave = np.mean(magnitude)
         dvar = np.var(magnitude)
         
-        freq = self.makefreq(flo, fhi, df)
+        freq = makefreq(flo, fhi, df)
         nfreq = len(freq)
-        dmat = np.zeros(shape=(3,3))
+        dmat = np.zeros(shape=(3, 3))
 
         ### End of Initializing
 
-        tau = self.maketau(time, timedivisions)
+        tau = maketau(time, timedivisions)
         ntau = len(tau)
 
         ### WWT Stars Here
