@@ -99,13 +99,50 @@ def makefreq(flo, fhi, df):
     return [(flo + ((i - 1) * df)) for i in range(1, nfreq + 1)]
 
 
+def roundtau(darg):
+    """
+    Rounds the tau's. from G. Foster's Code.
+
+    This is actually called by the maketau method.
+    The input is dtspan/timedivisions,
+    where dtspan is the entire timespan of the lightcurve.
+    so dtspan = time[-1] - time[0]
+
+    Returns the round value.
+
+    Arguments
+    ---------
+    :param darg: dtspan / timedivisions
+    :type darg: int, float
+
+    Returns
+    -------
+    :returns: the rounded value
+    :rtype: int, float
+
+    """
+
+    dex = math.pow(10, int(math.log(darg, 10)))
+
+    darg /= dex
+
+    if darg >= 5:
+        darg = 5.0
+    elif darg >= 2:
+        darg = 2.0
+    else:
+        darg = 1.0
+
+    darg *= dex
+    return darg
+
+
 class WWZ(object):
     """The Main class object.
     This object class does not get any arguments.
     Available methods are:
         readfile()
         roundtau()
-        matrix_inv()
         wwt()
         writefile()
         writegnu()
@@ -175,43 +212,6 @@ class WWZ(object):
 
         # Return two arrays
         return time, magnitude
-
-    def roundtau(self, darg):
-        """
-        Rounds the tau's. from G. Foster's Code.
-
-        This is actually called by the maketau method.
-        The input is dtspan/timedivisions,
-        where dtspan is the entire timespan of the lightcurve.
-        so dtspan = time[-1] - time[0]
-
-        Returns the round value.
-
-        Arguments
-        ---------
-        :param darg: dtspan / timedivisions
-        :type darg: int, float
-
-        Returns
-        -------
-        :returns: the rounded value
-        :rtype: int, float
-
-        """
-
-        dex = math.pow(10, int(math.log(darg, 10)))
-
-        darg = darg / dex
-
-        if darg >= 5:
-            darg = 5.0
-        elif darg >= 2:
-            darg = 2.0
-        else:
-            darg = 1.0
-
-        darg = darg * dex
-        return darg
 
     def wwt(self, time, magnitude, flo, fhi, df, dcon, timedivisions):
         """
