@@ -379,7 +379,7 @@ class WWZ(object):
 
                     dmat[0][0] = 1.0
                     davew = dvec[0]
-                    dvarw = dvarw - (davew ** 2)
+                    dvarw -= davew ** 2
 
                     if dvarw <= 0.0:
                         dvarw = 10**-12
@@ -392,11 +392,11 @@ class WWZ(object):
 
                     for n1 in range(0, ndim + 1):
                         for n2 in range(0, ndim + 1):
-                            dcoef[n1] = dcoef[n1] + dmat[n1][n2] * dvec[n2]
+                            dcoef[n1] += dmat[n1][n2] * dvec[n2]
 
-                        dpower = dpower + (dcoef[n1] * dvec[n1])
+                        dpower += dcoef[n1] * dvec[n1]
 
-                    dpower = dpower - (davew ** 2)
+                    dpower -= davew ** 2
                     dpowz = (dneff - 3.0) * dpower / (dvarw - dpower) / 2.0
                     dpower = (dneff - 1.0) * dpower / dvarw / 2.0
                     damp = math.sqrt(dcoef[1] * dcoef[1] +
