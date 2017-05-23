@@ -130,14 +130,19 @@ class WWZ(object):
 
     def maketau(self, time, timedivisions):
         """The maketau method.
-        Arguments are:
-            time = The array of time values
-            timedivisions = The value of timedivisions to create tau values
 
-            Returns an array of calculated tau values.
+            Corresponds to the lines 90 - 112 in the Fortran code
+
+            :param time: The time values
+            :type time: Array
+
+            :param timedivisions: The value of timedivisions to create tau values
+            :type timedivisions: integer
+
+            :returns: Calculated tau values
+            :rtype: array
+
         """
-        # The Maketau section
-        # Lines 90 - 122 Fortran
 
         dtauhi = time[-1]
         dtaulo = time[0]
@@ -153,13 +158,27 @@ class WWZ(object):
     def makefreq(self, flo, fhi, df):
         """The Makefreq section.
 
+        Corresponds to the lines 149-181 in Fortran
+        and 356 - 370 in Java
+
+        :param flo: Low Frequency Value
+        :type flo: int, float
+
+        :param fhi: High Frequency Value
+        :type fhi: int, float
+
+        :param df: Frequency Step
+        :type df: int, float
+
+        :returns: Frequency values
+        :rtype: array
+
         Arguments are:
             flo = Low Frequency
             fhi = High Frequency
             df = Frequency Step
+
         """
-        # Lines 149 - 181 Fortran
-        # Lines 356 - 370 Java
         nfreq = int((fhi - flo) / df) + 1
         return [(flo + ((i - 1) * df)) for i in range(1, nfreq + 1)]
 
