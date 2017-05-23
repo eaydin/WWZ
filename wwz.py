@@ -404,8 +404,7 @@ class WWZ(object):
 
                     for n1 in range(0, ndim + 1):
                         for n2 in range(0, ndim + 1):
-                            dcoef[n1] = dcoef[n1] + dmat[n1][n2] * \
-                                                    dvec[n2]
+                            dcoef[n1] = dcoef[n1] + dmat[n1][n2] * dvec[n2]
 
                         dpower = dpower + (dcoef[n1] * dvec[n1])
 
