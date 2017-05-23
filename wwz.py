@@ -105,13 +105,26 @@ class WWZ(object):
         return time, magnitude
 
     def roundtau(self, darg):
-        """Rounds the tau's. from G. Foster's Code.
+        """
+        Rounds the tau's. from G. Foster's Code.
+
         This is actually called by the maketau method.
         The input is dtspan/timedivisions,
         where dtspan is the entire timespan of the lightcurve.
         so dtspan = time[-1] - time[0]
 
         Returns the round value.
+
+        Arguments
+        ---------
+        :param darg: dtspan / timedivisions
+        :type darg: int, float
+
+        Returns
+        -------
+        :returns: the rounded value
+        :rtype: int, float
+
         """
 
         dex = math.pow(10, int(math.log(darg, 10)))
@@ -129,18 +142,23 @@ class WWZ(object):
         return darg
 
     def maketau(self, time, timedivisions):
-        """The maketau method.
+        """
+        The maketau method.
 
-            Corresponds to the lines 90 - 112 in the Fortran code
+        Corresponds to the lines 90 - 112 in the Fortran code
 
-            :param time: The time values
-            :type time: Array
+        Arguments
+        ---------
+        :param time: The time values
+        :type time: Array
 
-            :param timedivisions: The value of timedivisions to create tau values
-            :type timedivisions: integer
+        :param timedivisions: The value of timedivisions to create tau values
+        :type timedivisions: integer
 
-            :returns: Calculated tau values
-            :rtype: array
+        Returns
+        -------
+        :returns: Calculated tau values
+        :rtype: array
 
         """
 
@@ -156,11 +174,14 @@ class WWZ(object):
         return np.arange(dtaulo, dtauhi + dtstep, dtstep).tolist()
 
     def makefreq(self, flo, fhi, df):
-        """The Makefreq section.
+        """
+        The Makefreq section.
 
         Corresponds to the lines 149-181 in Fortran
         and 356 - 370 in Java
 
+        Arguments
+        ---------
         :param flo: Low Frequency Value
         :type flo: int, float
 
@@ -170,13 +191,10 @@ class WWZ(object):
         :param df: Frequency Step
         :type df: int, float
 
+        Returns
+        -------
         :returns: Frequency values
         :rtype: array
-
-        Arguments are:
-            flo = Low Frequency
-            fhi = High Frequency
-            df = Frequency Step
 
         """
         nfreq = int((fhi - flo) / df) + 1
