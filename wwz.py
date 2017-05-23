@@ -201,17 +201,37 @@ class WWZ(object):
         return [(flo + ((i - 1) * df)) for i in range(1, nfreq + 1)]
 
     def wwt(self, time, magnitude, flo, fhi, df, dcon, timedivisions):
-        """The WWZ Algorithm
-        Arguments are:
-            time = The time values as an array
-            magnitude = The magnitude values as an array
-            flo = The Low Frequency
-            fhi = The High Frequency
-            df = The Frequency Step
-            dcon = The C constant of WWZ Window
-            timedivisions = The TAU steps
+        """
+        The WWZ Algorithm
 
-            Returns a NumPy Array
+        Arguments
+        ---------
+        :param time: The time values
+        :type time: array
+
+        :param magnitude: The magnitude values
+        :type magnitude: array
+
+        :param flo: The low frequency
+        :type flo: int, float
+
+        :param fhi: The high frequency
+        :type fhi: int, float
+
+        :param df: The frequency step
+        :type df: int, float
+
+        :param dcon: The C constant of the WWZ Window
+        :type dcon: int, float
+
+        :param timedivisions: The TAU step size. Choose 50.0 if not sure, that is the default by Templeton
+        :type timedivisions: int, float
+
+        Returns
+        -------
+        :returns: The WWT values
+        :rtype: Numpy array
+
         """
 
         dave = np.mean(magnitude)
