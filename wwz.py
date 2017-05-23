@@ -249,8 +249,8 @@ class WWZ(object):
 
         ### WWT Stars Here
 
-        dvec = [0,0,0] # length is 3
-        dcoef = [0,0,0] # length is 3
+        dvec = [0, 0, 0] # length is 3
+        dcoef = [0, 0, 0] # length is 3
 
         itau = 0
         ifreq = 0
@@ -333,19 +333,19 @@ class WWZ(object):
                         dcw = dweight * dcc
                         dss = np.sin(dz)
                         dsw = dweight * dss
-                        dmat[0][0] = dmat[0][0] + dweight
-                        dweight2 = dweight2 + (dweight**2)
-                        dmat[0][1] = dmat[0][1] + dcw
-                        dmat[0][2] = dmat[0][2] + dsw
-                        dmat[1][1] = dmat[1][1] + (dcw * dcc)
-                        dmat[1][2] = dmat[1][2] + (dcw * dss)
-                        dmat[2][2] = dmat[2][2] + (dsw * dss)
+                        dmat[0][0] += dweight
+                        dweight2 += dweight ** 2
+                        dmat[0][1] += dcw
+                        dmat[0][2] += dsw
+                        dmat[1][1] += dcw * dcc
+                        dmat[1][2] += dcw * dss
+                        dmat[2][2] += dsw * dss
 
                         dxw = dweight * magnitude[idat]
-                        dvec[0] = dvec[0] + dxw
-                        dvarw = dvarw + (dxw * magnitude[idat])
-                        dvec[1] = dvec[1] + (dcw * magnitude[idat])
-                        dvec[2] = dvec[2] + (dsw * magnitude[idat])
+                        dvec[0] += dxw
+                        dvarw += dxw * magnitude[idat]
+                        dvec[1] += dcw * magnitude[idat]
+                        dvec[2] += dsw * magnitude[idat]
 
                     elif dz > 0.0:
                         break
