@@ -1,17 +1,11 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#   wwz.py
-#   6 June 15:17
-#   11 September 12:16 semicolon fixes
-#   Copyright 2014 M. Emre Aydin <emre.m.aydin@gmail.com>
-#   http://about.me/emre.aydin
-#   http://github.com/eaydin
+
 
 """
     A Weighted Wavelet Z-Transformation Application for Python.
     Translated by M. Emre Aydin - emre.m.aydin@gmail.com
     http://about.me/emre.aydin
-    Available at http://github.com/eaydin
+    Available at https://github.com/eaydin/WWZ
 
 For details, read the docstrings of WWZ class.
 """
@@ -23,14 +17,14 @@ from datetime import datetime
 
 # Checking if Python is 2.7
 if not sys.version_info[:2] == (2, 7):
-    print "You need Python 2.7 for this script to run."
+    print("You need Python 2.7 for this script to run.")
     raise SystemExit
 
 # Checking if we have numpy
 try:
     import numpy as np
 except:
-    print "Please Install Numpy"
+    print("Please Install Numpy")
     raise SystemExit
 
 # Checking if we have argparse (which is default in 2.7 so this is
@@ -38,7 +32,7 @@ except:
 try:
     import argparse
 except:
-    print "Argparse Not Available?! You sure this is Python 2.7?"
+    print("Argparse Not Available?! You sure this is Python 2.7?")
     raise SystemExit
 
 
@@ -103,8 +97,8 @@ class WWZ(object):
         # Just a routine check for parameter number equality
         # This should be cleaned up a bit
         if len(time) != len(magnitude):
-            print "Number of Time and Magnitude input do not match. \
-                  Please check the input file."
+            print("Number of Time and Magnitude input do not match. \
+                  Please check the input file.")
             raise SystemExit
 
         # Return two arrays
@@ -528,8 +522,8 @@ class WWZPAR(object):
 
         self.inputfile.close()
         if len(self.time) != len(self.magnitude):
-            print "Number of Time and Magnitude input do not match. \
-                   Please check the input file."
+            print("Number of Time and Magnitude input do not match. \
+                   Please check the input file.")
             raise SystemExit
             # Just a routine check for parameter number equality.
             # This should be cleaned up a bit.
@@ -558,7 +552,6 @@ class WWZPAR(object):
 
         darg = darg * math.pow(10, nex)
         return darg
-
 
     def matrix_inv(self,input_matrix):
         """The Matrix Inversion Function"""
@@ -618,7 +611,6 @@ class WWZPAR(object):
 
         dtau = dtaulo
         while dtau <= dtauhi:
-            #print dtau
             self.tau.append(dtau)
             dtau = dtau + dtstep
 
@@ -643,7 +635,7 @@ class WWZPAR(object):
         max_periods = self.max_periods
         gnuplot_compatible = self.gnuplot_compatible
 
-        if max_periods == True:
+        if max_periods:
             output2_par = output1_par + ".max_periods.par"
             output2 = open(output2_par, "w")
 
@@ -722,7 +714,7 @@ class WWZPAR(object):
                     dz = domega * (self.time[idat] - dtau)
                     dweight = math.exp(-1.0 * self.dcon * dz * dz)
 
-                    if (dweight > 10**(-9)):
+                    if dweight > 10**(-9):
                         dcc = math.cos(dz)
                         dcw = dweight * dcc
                         dss = math.sin(dz)
@@ -752,12 +744,12 @@ class WWZPAR(object):
                 for n1 in range(0, ndim + 1):
                     dcoef[n1] = 0.0
 
-                if (dweight2 > 0.0):
+                if dweight2 > 0.0:
                     dneff = (dmat_par[0][0] * dmat_par[0][0]) / dweight2
                 else:
                     dneff = 0.0
 
-                if (dneff > 3.0):
+                if dneff > 3.0:
 
                     for n1 in range(0, ndim + 1):
                         dvec[n1] = dvec[n1] / dmat_par[0][0]
@@ -766,7 +758,7 @@ class WWZPAR(object):
                             dmat_par[n1][n2] = dmat_par[n1][n2] / \
                                                dmat_par[0][0]
 
-                    if (dmat_par[0][0] > 0.0):
+                    if dmat_par[0][0] > 0.0:
                         dvarw = dvarw / dmat_par[0][0]
                     else:
                         dvarw = 0.0
@@ -775,7 +767,7 @@ class WWZPAR(object):
                     davew = dvec[0]
                     dvarw = dvarw - (davew ** 2)
 
-                    if (dvarw <= 0.0):
+                    if dvarw <= 0.0:
                         dvarw = 10**-12
 
                     for n1 in range(1, ndim + 1):
@@ -804,25 +796,25 @@ class WWZPAR(object):
                     dpower = 0.0
                     damp = 0.0
 
-                    if (dneff < (10**(-9))):
+                    if dneff < (10**(-9)):
                         dneff = 0.0
 
-                if (damp < (10**(-9))):
+                if damp < (10**(-9)):
                     damp = 0.0
 
-                if (dpower < (10**(-9))):
+                if dpower < (10**(-9)):
                     dpower = 0.0
 
-                if (dpowz < (10**(-9))):
+                if dpowz < (10**(-9)):
                     dpowz = 0.0
 
                 # Let's write everything out.
 
-                output1.write("%s \t %s \t %s \t %s \t %s \t %s\n" % \
-                             (str(dtau),str(dfre),str(dpowz),str(damp), \
+                output1.write("%s \t %s \t %s \t %s \t %s \t %s\n" %
+                             (str(dtau),str(dfre),str(dpowz),str(damp),
                              str(dcoef[0]),str(dneff)))
 
-                if (dpowz > dmz):
+                if dpowz > dmz:
                     dmz = dpowz
                     dmfre = dfre
                     dmamp = damp
@@ -830,12 +822,12 @@ class WWZPAR(object):
                     dmneff = dneff
 
             #
-            if max_periods == True:
+            if max_periods:
                 # writes the max_periods output if specified
-                output2.write("%f \t %f \t %f \t %f \t %f \t %f\n" % \
+                output2.write("%f \t %f \t %f \t %f \t %f \t %f\n" %
                              (dtau, dmfre, dmz,  dmamp, dmcon, dmneff))
             
-            if gnuplot_compatible == True:
+            if gnuplot_compatible:
                 # added so that gnuplot reads out of the box
                 output1.write("\n")
 
@@ -885,44 +877,44 @@ if __name__ == '__main__':
 
     """
 
-    parser = argparse.ArgumentParser(prog='wwz.py', \
-                 formatter_class=argparse.RawDescriptionHelpFormatter,\
+    parser = argparse.ArgumentParser(prog='wwz.py',
+                 formatter_class=argparse.RawDescriptionHelpFormatter,
                  fromfile_prefix_chars="@", description=description)
 
-    parser.add_argument("-f", "--file", type=argparse.FileType("r"),\
-                        default=sys.stdin, required=True,\
+    parser.add_argument("-f", "--file", type=argparse.FileType("r"),
+                        default=sys.stdin, required=True,
                         help="the Input File, Raw Lightcurve")
-    parser.add_argument("-o", "--output", type=argparse.FileType('w'),\
-                        default=sys.stdout, required=True,\
+    parser.add_argument("-o", "--output", type=argparse.FileType('w'),
+                        default=sys.stdout, required=True,
                         help="the Output File Name")
-    parser.add_argument("-l", "--freq-low", type=float, required=True,\
+    parser.add_argument("-l", "--freq-low", type=float, required=True,
                         help="the Low Frequency Value")
-    parser.add_argument("-hi", "--freq-high", type=float, required=True,\
+    parser.add_argument("-hi", "--freq-high", type=float, required=True,
                         help="the High Frequency Value")
-    parser.add_argument("-d", "--freq-step", type=float, required=True,\
+    parser.add_argument("-d", "--freq-step", type=float, required=True,
                         help="the dF value, incremental step for Frequency")
     parser.add_argument("-c", "--dcon", type=float, required=True,\
                         help="the C constant for the Window Function")
-    parser.add_argument("-g", "--gnuplot-compatible", action="store_true",\
+    parser.add_argument("-g", "--gnuplot-compatible", action="store_true",
                         default=False, help="the Output file is GNUPlot \
                         compatible, which means the tau's will be grouped \
                         so that pm3d can easily map. Default value is \
                         'False'.")
-    parser.add_argument("-m", "--max-periods", action="store_true", \
+    parser.add_argument("-m", "--max-periods", action="store_true",
                         default=False, help="Creates a secondary \
                         output with the maximum Periods for each single \
                         tau. This can be drawn in 2D. The output filename \
                         is derived from the -o option, added 'max_periods'. \
                         Default value is 'False'.")
-    parser.add_argument("-t", "--time-divisions", type=float, default=50.0, \
+    parser.add_argument("-t", "--time-divisions", type=float, default=50.0,
                         help="The Time Divisions value. Templeton assumes \
                         this as 50. VStars from AAVSO leaves this optional \
                         contrary to Templeton, yet it's default value is \
                         also 50.")
-    parser.add_argument("--time", action="store_true", default=False, \
+    parser.add_argument("--time", action="store_true", default=False,
                         help="Calculate the time of operation in seconds \
                         and print to standard output.")
-    parser.add_argument("--no-headers", action="store_true", default=False, \
+    parser.add_argument("--no-headers", action="store_true", default=False,
                         help="Doesn't print headers to output files if set. \
                         Default is 'False'.")
     parser.add_argument("-p", "--parallel", help="Created threads to speed \
@@ -943,7 +935,7 @@ if __name__ == '__main__':
         try:
             import multiprocessing
         except (ImportError, NotImplementedError):
-            print "Multiprocessing not available, using single CPU thread."
+            print("Multiprocessing not available, using single CPU thread.")
             cpu = 1
 
     if cpu == 0:
@@ -952,7 +944,7 @@ if __name__ == '__main__':
             import multiprocessing
             cpu = multiprocessing.cpu_count()
         except (ImportError, NotImplementedError):
-            print "Multiprocessing not available, using single CPU thread."
+            print("Multiprocessing not available, using single CPU thread.")
             cpu = 1
 
     # Multiprocessing begins        
@@ -1052,4 +1044,4 @@ if __name__ == '__main__':
    # Print calculated time
     if args.time:
         endtime = datetime.now()
-        print "Run Time: %s seconds" % str((endtime - starttime).seconds)
+        print("Run Time: {0} seconds".format((endtime - starttime).seconds))
