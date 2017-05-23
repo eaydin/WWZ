@@ -128,7 +128,6 @@ class WWZ(object):
         darg = darg * dex
         return darg
 
-
     def maketau(self, time, timedivisions):
         """The maketau method.
         Arguments are:
@@ -301,12 +300,12 @@ class WWZ(object):
                 for n1 in range(0, ndim + 1):
                     dcoef[n1] = 0.0
 
-                if (dweight2 > 0.0):
+                if dweight2 > 0.0:
                     dneff = (dmat[0][0] * dmat[0][0]) / dweight2
                 else:
                     dneff = 0.0
 
-                if (dneff > 3.0):
+                if dneff > 3.0:
 
                     for n1 in range(0, ndim + 1):
                         dvec[n1] = dvec[n1] / dmat[0][0]
@@ -315,17 +314,16 @@ class WWZ(object):
                             dmat[n1][n2] = dmat[n1][n2] / \
                                                 dmat[0][0]
                 
-                    if (dmat[0][0] > 0.005):
+                    if dmat[0][0] > 0.005:
                         dvarw = dvarw / dmat[0][0]
                     else:
                         dvarw = 0.0
-                    
 
                     dmat[0][0] = 1.0
                     davew = dvec[0]
                     dvarw = dvarw - (davew ** 2)
 
-                    if (dvarw <= 0.0):
+                    if dvarw <= 0.0:
                         dvarw = 10**-12
 
                     for n1 in range(1, ndim + 1):
@@ -344,33 +342,32 @@ class WWZ(object):
                     dpower = dpower - (davew ** 2)
                     dpowz = (dneff - 3.0) * dpower / (dvarw - dpower) / 2.0
                     dpower = (dneff - 1.0) * dpower / dvarw / 2.0
-                    damp = math.sqrt(dcoef[1] * dcoef[1] + \
+                    damp = math.sqrt(dcoef[1] * dcoef[1] +
                                      dcoef[2] * dcoef[2])
 
                 else:
-
                     dpowz = 0.0
                     dpower = 0.0
                     damp = 0.0
 
-                    if (dneff < (10**(-9))):
+                    if dneff < (10**(-9)):
                         dneff = 0.0
 
-                if (damp < (10**(-9))):
+                if damp < (10**(-9)):
                     damp = 0.0
 
-                if (dpower < (10**(-9))):
+                if dpower < (10**(-9)):
                     dpower = 0.0
 
-                if (dpowz < (10**(-9))):
+                if dpowz < (10**(-9)):
                     dpowz = 0.0
 
                 # Let's write everything out.
                 output[index] = [dtau, dfre, dpowz, damp, dcoef[0], dneff]
 
-                index = index + 1
+                index += 1
 
-                if (dpowz > dmz):
+                if dpowz > dmz:
                     dmz = dpowz
                     dmfre = dfre
                     dmamp = damp
@@ -378,7 +375,6 @@ class WWZ(object):
                     dmneff = dneff
 
         return output  
-
 
     def writefile(self, wwz_output, outputFile, no_headers, max_periods):
         """The write file method.
@@ -447,6 +443,7 @@ class WWZ(object):
 
 # The WWZPAR Class Begins
 
+
 class WWZPAR(object):
     """This is for Parallel Processing only.
     This works different than the WWZ class, it takes arguments directly.
@@ -505,7 +502,6 @@ class WWZPAR(object):
         self.freq = []
 
         self.dmat = np.zeros(shape=(3, 3))
-
 
     def readfile(self):
         """Read the input file"""
