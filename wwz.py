@@ -137,8 +137,57 @@ def roundtau(darg):
     return darg
 
 
+def readfile(filename):
+    """
+    Read the input file.
+
+    The argument is the file pointer, not the filename as a string.
+    The values in file should be delimited with spaces or tabs.
+    Ignores lines starting with # and %, as if they're comment lines.
+
+    Returns two arrays:
+        Time value, read from the first column of input file.
+        Magnitude value, read from the second column of input file.
+
+    Arguments
+    ---------
+    :param filename: The file-like object to read
+    :type filename: file
+
+    Returns
+    -------
+    :returns: time value read fro the first column of input file and magnitude value from second column
+    :rtype: array, array
+
+    """
+
+    time = []
+    magnitude = []
+
+    for line in filename:
+        # Check if it's a comment line
+        if line.strip()[0] != "%" and line.strip()[0] != "#":
+            line_time = float(line.split()[0])
+            line_mag = float(line.split()[1])
+            time.append(line_time)
+            magnitude.append(line_mag)
+
+    filename.close()
+
+    # Just a routine check for parameter number equality
+    # This should be cleaned up a bit
+    if len(time) != len(magnitude):
+        print("Number of Time and Magnitude input do not match. \
+              Please check the input file.")
+        raise SystemExit
+
+    # Return two arrays
+    return time, magnitude
+
+
 class WWZ(object):
     """The Main class object.
+
     This object class does not get any arguments.
     Available methods are:
         readfile()
@@ -147,71 +196,10 @@ class WWZ(object):
         writefile()
         writegnu()
 
-    Arguments:
-        fileName: the input filename, should be the lightcurve.
-        outputfileName: the output filename.
-        flo: the low frequency value. Float.
-        fhi: the high frequency value. Float.
-        df: the frequency step. Float.
-        dcon: the C Window constant. Float.
-        timedivisions: the The Divisions value, choose 50.0 if not
-            sure, that is the default used by Templeton.
-        max_periods: set True if you want the second output file.
-            It outputs the tau's with maximum period values for easier
-            estimation.
-        gnuplot_compatible: splits tau values by a blank line if set
-            True, so that pm3d of gnuplot easily maps the plot.
     """
 
     def __init__(self):
         """Initializing the object"""
-
-    def readfile(self, filename):
-        """
-        Read the input file.
-
-        The argument is the file pointer, not the filename as a string.
-        The values in file should be delimited with spaces or tabs.
-        Ignores lines starting with # and %, as if they're comment lines.
-
-        Returns two arrays:
-            Time value, read from the first column of input file.
-            Magnitude value, read from the second column of input file.
-
-        Arguments
-        ---------
-        :param filename: The file-like object to read
-        :type filename: file
-
-        Returns
-        -------
-        :returns: time value read fro the first column of input file and magnitude value from second column
-        :rtype: array, array
-
-        """
-
-        time = []
-        magnitude = []
-
-        for line in filename:
-            # Check if it's a comment line
-            if line.strip()[0] != "%" and line.strip()[0] != "#":
-                line_time = float(line.split()[0])
-                line_mag = float(line.split()[1])
-                time.append(line_time)
-                magnitude.append(line_mag)
-
-        fileName.close()
-
-        # Just a routine check for parameter number equality
-        # This should be cleaned up a bit
-        if len(time) != len(magnitude):
-            print("Number of Time and Magnitude input do not match. \
-                  Please check the input file.")
-            raise SystemExit
-
-        # Return two arrays
-        return time, magnitude
 
     def wwt(self, time, magnitude, flo, fhi, df, dcon, timedivisions):
         """
@@ -1087,7 +1075,7 @@ if __name__ == '__main__':
 
         s=WWZ()
 
-        time_data, magnitude_data = s.readfile(args.file)
+        time_data, magnitude_data = readfile(args.file)
         wwz_output = s.wwt(time_data, magnitude_data, args.freq_low, \
                            args.freq_high, args.freq_step, args.dcon, \
                            args.time_divisions)
