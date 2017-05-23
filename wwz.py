@@ -148,21 +148,14 @@ class WWZ(object):
 
         dtauhi = time[-1]
         dtaulo = time[0]
-        # the java translation uses 1 for dtaulo,
-        # but that should be a bug.
 
         dtspan = dtauhi - dtaulo
-        dtstep = self.roundtau(dtspan / timedivisions)
+        dtstep = roundtau(dtspan / timedivisions)
 
         dtaulo = dtstep * int(dtaulo / dtstep)
         dtauhi = dtstep * int((dtauhi / dtstep) + 0.5)
 
-        tau = []
-        dtau = dtaulo
-        while dtau <= dtauhi:
-            tau.append(dtau)
-            dtau = dtau + dtstep
-        return tau
+        return np.arange(dtaulo, dtauhi + dtstep, dtstep).tolist()
 
     def makefreq(self, flo, fhi, df):
         """The Makefreq section.
