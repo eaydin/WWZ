@@ -287,7 +287,7 @@ class WWZ(object):
         dmcon = 0.0
         dmneff = 0.0
 
-        twopi = 2.0 * math.pi
+        twopi = 2.0 * np.pi
 
         ndim = 2
         itau1 = 0 # --> 1 or 0 ??
@@ -328,10 +328,10 @@ class WWZ(object):
                     dz = domega * (time[idat] - dtau)
                     dweight = math.exp(-1.0 * dcon * dz * dz)
 
-                    if (dweight > 10**(-9)):
-                        dcc = math.cos(dz)
+                    if dweight > 10**(-9):
+                        dcc = np.cos(dz)
                         dcw = dweight * dcc
-                        dss = math.sin(dz)
+                        dss = np.sin(dz)
                         dsw = dweight * dss
                         dmat[0][0] = dmat[0][0] + dweight
                         dweight2 = dweight2 + (dweight**2)
