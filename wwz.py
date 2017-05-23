@@ -120,10 +120,9 @@ class WWZ(object):
         Returns the round value.
         """
 
-        dex = math.log(darg, 10)
-        nex = int(dex)
+        dex = math.pow(10, int(math.log(darg, 10)))
 
-        darg = darg / math.pow(10, nex)
+        darg = darg / dex
 
         if darg >= 5:
             darg = 5.0
@@ -132,8 +131,9 @@ class WWZ(object):
         else:
             darg = 1.0
 
-        darg = darg * math.pow(10, nex)
+        darg = darg * dex
         return darg
+
 
     def maketau(self, time, timedivisions):
         """The maketau method.
