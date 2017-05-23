@@ -70,8 +70,10 @@ class WWZ(object):
     def __init__(self):
         """Initializing the object"""
 
-    def readfile(self, fileName):
-        """Read the input file.
+    def readfile(self, filename):
+        """
+        Read the input file.
+
         The argument is the file pointer, not the filename as a string.
         The values in file should be delimited with spaces or tabs.
         Ignores lines starting with # and %, as if they're comment lines.
@@ -79,12 +81,23 @@ class WWZ(object):
         Returns two arrays:
             Time value, read from the first column of input file.
             Magnitude value, read from the second column of input file.
+
+        Arguments
+        ---------
+        :param filename: The file-like object to read
+        :type filename: file
+
+        Returns
+        -------
+        :returns: time value read fro the first column of input file and magnitude value from second column
+        :rtype: array, array
+
         """
 
         time = []
         magnitude = []
 
-        for line in fileName:
+        for line in filename:
             # Check if it's a comment line
             if line.strip()[0] != "%" and line.strip()[0] != "#":
                 line_time = float(line.split()[0])
