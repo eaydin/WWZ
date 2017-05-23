@@ -28,7 +28,7 @@ if not sys.version_info[:2] == (2, 7):
 
 # Checking if we have numpy
 try:
-    import numpy
+    import numpy as np
 except:
     print "Please Install Numpy"
     raise SystemExit
@@ -184,12 +184,12 @@ class WWZ(object):
             Returns a NumPy Array
         """
 
-        dave = numpy.mean(magnitude)
-        dvar = numpy.var(magnitude)
+        dave = np.mean(magnitude)
+        dvar = np.var(magnitude)
         
         freq = self.makefreq(flo, fhi, df)
         nfreq = len(freq)
-        dmat = numpy.zeros(shape=(3,3))
+        dmat = np.zeros(shape=(3,3))
 
         ### End of Initializing
 
@@ -246,7 +246,7 @@ class WWZ(object):
         nstart = 1
 
         # Creating output arrays
-        output = numpy.empty((ntau*(nfreq-1), 6))
+        output = np.empty((ntau*(nfreq-1), 6))
         numdat=len(time)
         index = 0
 
@@ -338,7 +338,7 @@ class WWZ(object):
                         for n2 in range(0, n1):
                             dmat[n1][n2] = dmat[n2][n1]
 
-                    dmat = numpy.linalg.inv(dmat)
+                    dmat = np.linalg.inv(dmat)
 
                     for n1 in range(0, ndim + 1):
                         for n2 in range(0, ndim + 1):
@@ -396,15 +396,15 @@ class WWZ(object):
                           of maximum WWZ statistics
         """
 
-        numpy.set_printoptions(precision=5)
-        numpy.set_printoptions(suppress=True)
-        numpy.set_printoptions(threshold='nan')
+        np.set_printoptions(precision=5)
+        np.set_printoptions(suppress=True)
+        np.set_printoptions(threshold='nan')
 
         if no_headers:
-            numpy.savetxt(outputFile, wwz_output, delimiter="\t", \
+            np.savetxt(outputFile, wwz_output, delimiter="\t", \
                           fmt="%10.4f")
         else:
-            numpy.savetxt(outputFile, wwz_output, delimiter="\t", \
+            np.savetxt(outputFile, wwz_output, delimiter="\t", \
                         fmt="%10.4f", comments="#", \
                         header="%9s %10s %10s %10s %10s %10s" % \
                         ("TAU", "FREQ", "WWZ", "AMP", "COEF", "NEFF"))
@@ -425,11 +425,11 @@ class WWZ(object):
                       int(((freq_high - freq_low) / freq_step) + 1)
         """
 
-        numpy.set_printoptions(precision=5)
-        numpy.set_printoptions(suppress=True)
-        numpy.set_printoptions(threshold='nan')
+        np.set_printoptions(precision=5)
+        np.set_printoptions(suppress=True)
+        np.set_printoptions(threshold='nan')
 
-        splitArray = numpy.vsplit(wwz_output, ntau)
+        splitArray = np.vsplit(wwz_output, ntau)
 
         # check if the file is in append mode
         # if not, reopen it
@@ -446,7 +446,7 @@ class WWZ(object):
         # split the array and add newlines in between tau values,
         # write the output
         for i in range(0,ntau):
-            numpy.savetxt(outputFile, splitArray[i], delimiter="\t", \
+            np.savetxt(outputFile, splitArray[i], delimiter="\t", \
                           fmt="%10.4f")
             if i != ntau-1:
                 outputFile.write("\n")
@@ -510,7 +510,7 @@ class WWZPAR(object):
 
         self.freq = []
 
-        self.dmat = numpy.zeros(shape=(3, 3))
+        self.dmat = np.zeros(shape=(3, 3))
 
 
     def readfile(self):
@@ -565,7 +565,7 @@ class WWZPAR(object):
         # Lines 202 - 252 Fortran
 
         ndim = 2
-        dsol = numpy.zeros(shape=(3, 3))
+        dsol = np.zeros(shape=(3, 3))
 
         for i in range(0, 3):
             for j in range(0, 3):
@@ -694,7 +694,7 @@ class WWZPAR(object):
         ifreq2 = self.nfreq
         nstart = 1
 
-        dmat_par = numpy.zeros(shape=(3, 3))
+        dmat_par = np.zeros(shape=(3, 3))
 
         for itau in range(itau1_par, itau2_par):
             nstart = 1
