@@ -434,13 +434,23 @@ class WWZ(object):
         return output  
 
     def writefile(self, wwz_output, outputFile, no_headers, max_periods):
-        """The write file method.
-        Arguments are:
-            wwz_output = The NumPy array of WWZ values to write
-            outputFile = The output file pointer, not the filename
-            no_headers = If true, will not write headers to the output
-            max_periods = If true, will create a file with period values
-                          of maximum WWZ statistics
+        """
+        The write file method.
+
+        Arguments
+        ---------
+        :param wwz_output: The Numpy array of WWZ values to write
+        :type wwz_output: Numpy array
+
+        :param outputFile: The output file pointer, not the filename
+        :type outputFile: File-like object
+
+        :param no_headers: If true, will not write headers to the output
+        :type no_headers: Boolean
+
+        :param max_periods: If true, will create a file with period values of maximum WWZ statistics
+        :type max_periods: Boolean
+
         """
 
         np.set_printoptions(precision=5)
@@ -456,20 +466,30 @@ class WWZ(object):
                         header="%9s %10s %10s %10s %10s %10s" %
                         ("TAU", "FREQ", "WWZ", "AMP", "COEF", "NEFF"))
 
-    def writegnu(self, wwz_output, outputFile, no_headers,
-                max_periods, ntau):
-        """The write file method, adapted to work with GnuPlot.
-        Arguments are:
-            wwz_output = The NumPy array of WWZ values to write
-            outputFile = The output file pointer, not the filename
-            no_headers = If true, will not write headers to the output
-            max_periods = If true, will create a file with period values
-                          of maximum WWZ statistics
-            ntau = The number of tau values, this is needed in order to
-                   split the wwz_output equally
-                To calculate ntau, use the equation below:
-                    len(wwz_output) /
-                      int(((freq_high - freq_low) / freq_step) + 1)
+    def writegnu(self, wwz_output, outputFile, no_headers, max_periods, ntau):
+        """
+        The write file method, adapted to work with GnuPlot.
+
+        Arguments
+        ---------
+
+        :param wwz_output: The Numpy array of WWZ values to write
+        :type wwz_output: Numpy array
+
+        :param outputFile: The output file pointer, not the filename
+        :type outputFile: File-like object
+
+        :param no_headers: If true, will not write headers to the output
+        :type no_headers: Boolean
+
+        :param max_periods: If true, will create a file with period values of maximum WWZ statistics
+        :type max_periods: Boolean
+
+        :param ntau: The number of tau values, this is needed in order to split the wwz_output equally
+        to calculate ntau, use the equation below:
+            len(wwz_output) / int(((freq_high - freq_low) / freq_step) + 1)
+        :type ntau: int
+
         """
 
         np.set_printoptions(precision=5)
