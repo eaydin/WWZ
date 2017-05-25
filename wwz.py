@@ -185,6 +185,40 @@ def readfile(filename):
     return time, magnitude
 
 
+def writefile(wwz_output, outputFile, no_headers, max_periods):
+    """
+    The write file method.
+
+    Arguments
+    ---------
+    :param wwz_output: The Numpy array of WWZ values to write
+    :type wwz_output: Numpy array
+
+    :param outputFile: The output file pointer, not the filename
+    :type outputFile: File-like object
+
+    :param no_headers: If true, will not write headers to the output
+    :type no_headers: Boolean
+
+    :param max_periods: If true, will create a file with period values of maximum WWZ statistics
+    :type max_periods: Boolean
+
+    """
+
+    np.set_printoptions(precision=5)
+    np.set_printoptions(suppress=True)
+    np.set_printoptions(threshold='nan')
+
+    if no_headers:
+        np.savetxt(outputFile, wwz_output, delimiter="\t",
+                      fmt="%10.4f")
+    else:
+        header_line = "{tau:>9s} {freq:>10s} {wwz:>10s} {amp:>10s} {coef:>10s} {neff:>10s}".format(
+                    tau="TAU", freq="FREQ", wwz="WWZ", amp="AMP", coef="COEF", neff="NEFF")
+        np.savetxt(outputFile, wwz_output, delimiter="\t",
+                    fmt="%10.4f", comments="#", header=header_line)
+
+
 class WWZ(object):
     """The Main class object.
 
@@ -369,8 +403,7 @@ class WWZ(object):
                         dvec[n1] = dvec[n1] / dmat[0][0]
 
                         for n2 in range(1, ndim + 1 ):
-                            dmat[n1][n2] = dmat[n1][n2] / \
-                                                dmat[0][0]
+                            dmat[n1][n2] = dmat[n1][n2] / dmat[0][0]
                 
                     if dmat[0][0] > 0.005:
                         dvarw = dvarw / dmat[0][0]
@@ -431,40 +464,7 @@ class WWZ(object):
                     dmcon = dcoef[0]
                     dmneff = dneff
 
-        return output  
-
-    def writefile(self, wwz_output, outputFile, no_headers, max_periods):
-        """
-        The write file method.
-
-        Arguments
-        ---------
-        :param wwz_output: The Numpy array of WWZ values to write
-        :type wwz_output: Numpy array
-
-        :param outputFile: The output file pointer, not the filename
-        :type outputFile: File-like object
-
-        :param no_headers: If true, will not write headers to the output
-        :type no_headers: Boolean
-
-        :param max_periods: If true, will create a file with period values of maximum WWZ statistics
-        :type max_periods: Boolean
-
-        """
-
-        np.set_printoptions(precision=5)
-        np.set_printoptions(suppress=True)
-        np.set_printoptions(threshold='nan')
-
-        if no_headers:
-            np.savetxt(outputFile, wwz_output, delimiter="\t",
-                          fmt="%10.4f")
-        else:
-            np.savetxt(outputFile, wwz_output, delimiter="\t",
-                        fmt="%10.4f", comments="#",
-                        header="%9s %10s %10s %10s %10s %10s" %
-                        ("TAU", "FREQ", "WWZ", "AMP", "COEF", "NEFF"))
+        return output
 
     def writegnu(self, wwz_output, outputFile, no_headers, max_periods, ntau):
         """
@@ -1106,7 +1106,7 @@ if __name__ == '__main__':
             s.writegnu(wwz_output, args.output, args.no_headers, \
                        args.max_periods, send_ntau)
         else:
-            s.writefile(wwz_output, args.output, \
+            writefile(wwz_output, args.output, \
                         args.no_headers, args.max_periods)
 
 
