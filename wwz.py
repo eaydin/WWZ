@@ -269,19 +269,18 @@ class WWZ(object):
 
         """
 
-        dave = np.mean(magnitude)
-        dvar = np.var(magnitude)
+        # Delete these?
+        # dave = np.mean(magnitude)
+        # dvar = np.var(magnitude)
         
         freq = makefreq(flo, fhi, df)
         nfreq = len(freq)
         dmat = np.zeros(shape=(3, 3))
 
-        ### End of Initializing
-
         tau = maketau(time, timedivisions)
         ntau = len(tau)
 
-        ### WWT Stars Here
+        # WWT Stars Here
 
         dvec = [0, 0, 0] # length is 3
         dcoef = [0, 0, 0] # length is 3
