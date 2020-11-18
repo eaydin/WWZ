@@ -32,4 +32,3 @@ def read_timeseries(fp):
         raise TimeSeriesInconsistent("The number of elements in the timeseries don't match. Check your timeseries data.")
 
     return time_series, magnitude
-

@@ -8,7 +8,7 @@ import numpy
 class WWZ:
 
     def __init__(self):
-        pass
+        self.wwz = []
 
     @staticmethod
     def makefreq(flo, fhi, df):
@@ -58,8 +58,6 @@ class WWZ:
             tau.append(dtau)
             dtau = dtau + dtstep
         return tau
-
-
 
 
     @staticmethod
@@ -246,4 +244,17 @@ class WWZ:
                     dmcon = dcoef[0]
                     dmneff = dneff
 
-        return output
+        self.wwz = output
+
+    def write_file(self, fp, headers=False):
+        numpy.set_printoptions(precision=5)
+        numpy.set_printoptions(suppress=True)
+        numpy.set_printoptions(threshold='nan')
+
+        if headers:
+            numpy.savetxt(fp, self.wwz, delimiter='\t',
+                          fmt="%10.4f", comments='#',
+                          header="{:9s} {:10s} {:10s} {:10s} {:10s} {:10s}"
+                          .format("TAU", "FREQ", "WWZ", "AMP", "COEF", "NEFF"))
+        else:
+            numpy.savetxt(fp, self.wwz, delimiter='\t', fmt="%10.4f")
