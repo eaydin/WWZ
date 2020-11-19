@@ -12,25 +12,53 @@ class WWZ:
 
     @staticmethod
     def makefreq(flo, fhi, df):
-        # Lines 149 - 181 Fortran
-        # Lines 356 - 370 Java
+        """
+        Create Frequencies to iterate over.
 
-        freq = [flo]
-        nfreq = int((fhi - flo)/ df) + 1
+        Lines 149 - 191 in the Fortran code
+        Lines 356 - 370 in the Java code
 
-        # These lines seem skeptical!
-        for i in range(1, nfreq+1):
-            freq.append(flo + ((i - 1)* df))
-        return freq
+        We've switched from for loops to list comprehension for better performance.
+        You can check with timeit
+
+            import timeit
+            t = timeit.timeit("makefreq(0,3, 10, 0.1)", setup="from __main__ import makefreq")
+
+        Parameters
+        ----------
+        flo: float
+        fhi: float
+        df: float
+
+        Returns
+        -------
+        list
+
+        """
+
+        nfreq = int((fhi - flo) / df) + 1
+        return [flo + ((i - 1) * df) for i in range(0, nfreq+1)]
 
     @staticmethod
     def roundtau(darg):
+        """
+        Calculates the `dtstep` used by WWZ.maketau for calculating the increment of tau steps.
+
+        Parameters
+        ----------
+        darg: float
+
+        Returns
+        -------
+        float
+
+        """
         dex = math.log(darg, 10)
         nex = int(dex)
 
         darg = darg / math.pow(10, nex)
 
-        if darg >=5:
+        if darg >= 5:
             darg = 5.0
         elif darg >= 2:
             darg = 2.0
@@ -41,6 +69,20 @@ class WWZ:
         return darg
 
     def maketau(self, time_series, timedivisions):
+        """
+        Maketau section of the code.
+        Lines 90 - 122 in Fortran
+
+        Parameters
+        ----------
+        time_series: list
+        timedivisions: list
+
+        Returns
+        -------
+        list
+
+        """
         # The Maketau section
         # Lines 90 - 122 Fortran
 
@@ -62,19 +104,35 @@ class WWZ:
 
     @staticmethod
     def matrix_inversion(input_matrix):
+        """
+        Inverts the input matrix. This code seems very slppy.
+
+        Lines 202 - 252 in the Fortran code.
+
+        Parameters
+        ----------
+        input_matrix: numpy.ndarray
+
+        Returns
+        -------
+        numpy.ndarray
+
+        """
+
         # Lines 202 - 252 Fortran
 
         ndim = 2
-        dsol = numpy.zeros(shape=(3, 3))
 
-        for i in range(0, 3):
-            for j in range(0, 3):
-                dsol[i][j] = 0.0
-            dsol[i][i] = 1.0
+        dsol = numpy.array([[1, 0, 0],
+                            [0, 1, 0],
+                            [0, 0, 1]])
+
 
         for i in range(0, 3):
             if input_matrix[i][i] == 0.0:
                 if i == ndim:
+                    print('returning None...')
+                    print(dsol)
                     return
                 for j in range(0, 3):
                     if input_matrix[j][i] != 0.0:
@@ -140,7 +198,6 @@ class WWZ:
                         dmat[i][j] = 0.0
                 dweight2 = 0.0
                 # --------------------------
-
 
                 for idat in range(nstart, numdat):
                     dz = domega * (time_series[idat] - dtau)
@@ -234,7 +291,6 @@ class WWZ:
 
                 if dpowz < (10 ** (-9)):
                     dpowz = 0.0
-
                 output[index] = [dtau, dfre, dpowz, damp, dcoef[0], dneff]
                 index += 1
                 if dpowz > dmz:
@@ -249,7 +305,7 @@ class WWZ:
     def write_file(self, fp, headers=False):
         numpy.set_printoptions(precision=5)
         numpy.set_printoptions(suppress=True)
-        numpy.set_printoptions(threshold='nan')
+        numpy.set_printoptions(threshold=numpy.inf)
 
         if headers:
             numpy.savetxt(fp, self.wwz, delimiter='\t',
